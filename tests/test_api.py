@@ -65,3 +65,8 @@ def test_full_event_rejects_new_rsvp(client):
 def test_invalid_email_rejected(client):
     event_id = make_event(client)
     assert rsvp(client, event_id, "not-an-email").status_code == 422
+
+def test_root_redirects_to_docs(client):
+    resp = client.get("/", follow_redirects=False)
+    assert resp.status_code in (302, 307)
+    assert resp.headers["location"] == "/docs"

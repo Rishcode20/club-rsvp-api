@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.db import Base, engine, get_db
 from app.models import RSVP, Event
+from fastapi.responses import RedirectResponse
 
 # Creates the tables in the database if they don't exist yet
 Base.metadata.create_all(bind=engine)
@@ -41,6 +42,10 @@ class RSVPOut(RSVPCreate):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
 
 
 @app.post("/events", response_model=EventOut, status_code=201)
