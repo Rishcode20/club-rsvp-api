@@ -16,3 +16,10 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - run: pytest -q
+
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t club-rsvp-api .
